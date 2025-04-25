@@ -31,14 +31,14 @@ export default function App() {
     <div className={darkMode ? "dark" : ""}>
       <div className="bg-white dark:bg-gray-900 min-h-screen text-black dark:text-white">
         <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
           {userEmail ? (
             <Dashboard onLogout={() => setUserEmail(null)} />
           ) : (
             <Login onLogin={setUserEmail} />
           )}
-        <Routes>
-  <Route path="/" element={<Navigate to="/dashboard" replace />} />
-</Routes>
+                  </Routes>
         </BrowserRouter>
       </div>
     </div>

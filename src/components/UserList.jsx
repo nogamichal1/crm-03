@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import UserModal from "./UserModal";
 import { auth } from "../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {createUserWithEmailAndPassword} from "firebase/auth";
 
 const initialUsers = [
   {

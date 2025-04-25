@@ -121,6 +121,8 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
         </div>
       </div>
 
+    })
+
       <div className="flex gap-4 mb-4">
         <select
           value={filterColumn}

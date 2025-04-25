@@ -41,8 +41,8 @@ export default function RoleList({ onBack }) {
   };
 
   const handleCreateRole = () => {
-    const roleName = prompt("Podaj nazwę nowej roli:")?.trim();
-if (!roleName) return;
+    const roleName = prompt("Podaj nazwę nowej roli:");
+    if (!roleName) return;
     if (roles.find(r => r.name.toLowerCase() === roleName.toLowerCase())) {
       alert("Taka rola już istnieje.");
       return;
