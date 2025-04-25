@@ -65,51 +65,37 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
     setSortOrder(newOrder);
   };
 
-  const filteredOrders = orders
-    .filter((order) => {
-  if (searchTerm.trim() === "") return true;
-  return Object.entries(order).some(
-    ([key, value]) =>
-      searchKeys.includes(key) &&
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-  );
-.filter((order) => {
-  if (useOrderDateFilter && filterOrderFrom && filterOrderTo) {
-    const val = order["FerryOrderOrderDate"];
-    if (!(val >= filterOrderFrom && val <= filterOrderTo)) return false;
-  }
-  if (useCrossDateFilter && filterCrossFrom && filterCrossTo) {
-    const val = order["FerryOrderRealCrossingDate"];
-    if (!(val >= filterCrossFrom && val <= filterCrossTo)) return false;
-  }
-  return true;
-
-    .filter((order) => {
-  if (searchTerm.trim() === "") return true;
-  return Object.entries(order).some(
-    ([key, value]) =>
-      searchKeys.includes(key) &&
-      value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-  );
-.filter((order) => {
-  if (useOrderDateFilter && filterOrderFrom && filterOrderTo) {
-    const val = order["FerryOrderOrderDate"];
-    if (!(val >= filterOrderFrom && val <= filterOrderTo)) return false;
-  }
-  if (useCrossDateFilter && filterCrossFrom && filterCrossTo) {
-    const val = order["FerryOrderRealCrossingDate"];
-    if (!(val >= filterCrossFrom && val <= filterCrossTo)) return false;
-  }
-  return true;
-
-    .sort((a, b) => {
-      if (!sortKey) return 0;
-      const aVal = a[sortKey] || "";
-      const bVal = b[sortKey] || "";
-      return sortOrder === "asc"
-        ? aVal.localeCompare(bVal)
-        : bVal.localeCompare(aVal);
-    });
+const filteredOrders = orders
+  // ① wyszukiwanie pełnotekstowe
+  .filter(order => {
+    if (!searchTerm.trim()) return true;
+    return searchKeys.some(key =>
+      (order[key] ?? "")
+        .toString()
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
+    );
+  })
+  // ② filtr daty zamówienia
+  .filter(order => {
+    if (!useOrderDateFilter || !filterOrderFrom || !filterOrderTo) return true;
+    const val = order.FerryOrderOrderDate;
+    return val >= filterOrderFrom && val <= filterOrderTo;
+  })
+  // ③ filtr daty przeprawy
+  .filter(order => {
+    if (!useCrossDateFilter || !filterCrossFrom || !filterCrossTo) return true;
+    const val = order.FerryOrderRealCrossingDate;
+    return val >= filterCrossFrom && val <= filterCrossTo;
+  })
+  // ④ sortowanie
+  .sort((a, b) => {
+    if (!sortKey) return 0;
+    const [av, bv] = [a[sortKey] ?? "", b[sortKey] ?? ""];
+    return sortOrder === "asc"
+      ? av.toString().localeCompare(bv.toString())
+      : bv.toString().localeCompare(av.toString());
+  });
 
   return (
     <div className="p-4 pt-0">
@@ -196,13 +182,17 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
           </tbody>
         </table>
       </div>
-      <div className="mt-4">
-            setEditIndex(null);
-            setIsModalOpen(true);
-          }}
-        >
-        </button>
-      </div>
+<div className="mt-4">
+  <button
+    className="px-4 py-2 bg-blue-600 text-white rounded"
+    onClick={() => {
+      setEditIndex(null);
+      setIsModalOpen(true);
+    }}
+  >
+    Dodaj zamówienie
+  </button>
+</div>
       {isModalOpen && (
         <FerryOrderModal
           onClose={() => {
