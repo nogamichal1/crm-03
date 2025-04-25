@@ -73,7 +73,6 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
       searchKeys.includes(key) &&
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
   );
-})
 .filter((order) => {
   if (useOrderDateFilter && filterOrderFrom && filterOrderTo) {
     const val = order["FerryOrderOrderDate"];
@@ -84,7 +83,6 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
     if (!(val >= filterCrossFrom && val <= filterCrossTo)) return false;
   }
   return true;
-})
 
     .filter((order) => {
   if (searchTerm.trim() === "") return true;
@@ -93,7 +91,6 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
       searchKeys.includes(key) &&
       value.toString().toLowerCase().includes(searchTerm.toLowerCase())
   );
-})
 .filter((order) => {
   if (useOrderDateFilter && filterOrderFrom && filterOrderTo) {
     const val = order["FerryOrderOrderDate"];
@@ -104,7 +101,6 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
     if (!(val >= filterCrossFrom && val <= filterCrossTo)) return false;
   }
   return true;
-})
 
     .sort((a, b) => {
       if (!sortKey) return 0;
@@ -117,11 +113,6 @@ const [useCrossDateFilter, setUseCrossDateFilter] = useState(false);
 
   return (
     <div className="p-4 pt-0">
-      <div className="flex justify-between items-center mb-2">
-        </div>
-      </div>
-
-    })
 
       <div className="flex gap-4 mb-4">
         <select
